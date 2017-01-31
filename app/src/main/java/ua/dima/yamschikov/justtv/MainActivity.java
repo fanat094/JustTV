@@ -53,16 +53,8 @@ public class MainActivity extends AppCompatActivity
         String t1 = intent.getStringExtra("t1");*/
 
         Log.d("QQ","QQ");
+/////
 
-        Intent intent = getIntent();
-        jsondata = intent.getStringExtra("jsondata");
-
-        //Log.d("SRAKA", jsondata);
-
-        Intent gintent = getIntent();
-        gname = gintent.getStringExtra("gname");
-        gemail = gintent.getStringExtra("gemail");
-        gpic = gintent.getStringExtra("gpic");
 
         headerview = navigationView.getHeaderView(0);
         nameProfile = (TextView) headerview.findViewById(R.id.name_profile);
@@ -70,16 +62,14 @@ public class MainActivity extends AppCompatActivity
         emailProfile = (TextView) headerview.findViewById(R.id.email_profile);
         loginBtn = (ImageView) headerview.findViewById(R.id.loginBtn);
         loginBtn.setOnClickListener(this);
-        setUserProfile(jsondata);
-        setUserProfileGoogle();
     }
+
 
     public  void  setUserProfile(String jsondata){
                try {
                 response = new JSONObject(jsondata);
                 nameProfile.setText(response.get("name").toString());
-                   Log.d("nameprof", nameProfile.toString());
-                   Toast.makeText(this, "SSS", Toast.LENGTH_SHORT).show();
+                   Toast.makeText(this, "Facebook", Toast.LENGTH_SHORT).show();
                 emailProfile.setText(response.get("email").toString());
                   profile_pic_data = new JSONObject(response.get("picture").toString());
                            profile_pic_url = new JSONObject(profile_pic_data.getString("data"));
@@ -95,7 +85,7 @@ public class MainActivity extends AppCompatActivity
         try {
             nameProfile.setText(gname);
             emailProfile.setText(gemail);
-            Toast.makeText(this, "SSS", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "setUserProfileGoogle", Toast.LENGTH_SHORT).show();
             Glide.with(this).load(gpic).into(loginBtn);
 
         } catch (Exception e){
@@ -105,6 +95,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+        finish();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -164,12 +155,38 @@ public class MainActivity extends AppCompatActivity
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.loginBtn:
-                Toast.makeText(this, "login Btn", Toast.LENGTH_LONG).show();
                 Intent i = new Intent(MainActivity.this, AutentificacionAvtivity.class);
-                startActivity(i);
+                startActivityForResult(i, 1);
                 break;
             default:
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Intent intent = data;
+        jsondata = intent.getStringExtra("jsondata");
+
+        Intent gintent = data;
+        gname = gintent.getStringExtra("gname");
+        gemail = gintent.getStringExtra("gemail");
+        gpic = gintent.getStringExtra("gpic");
+
+        Intent intentcheck = data;
+
+        int check = intentcheck.getIntExtra("CHECK",3);
+        Log.d("check", Integer.toString(check));
+
+        if(check==0) {
+
+            setUserProfile(jsondata);
+
+        }else
+        if (check==1){
+            setUserProfileGoogle();
         }
     }
 }

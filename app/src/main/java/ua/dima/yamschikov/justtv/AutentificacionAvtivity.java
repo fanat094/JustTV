@@ -121,8 +121,10 @@ public class AutentificacionAvtivity extends AppCompatActivity {
             public void onCompleted(JSONObject json_object, GraphResponse response) {
                 Intent intent = new Intent(AutentificacionAvtivity.this, MainActivity.class);
                 intent.putExtra( "jsondata",json_object.toString());
+                intent.putExtra("CHECK", 0);
                 Log.d("SRAKA", json_object.toString());
-                startActivity(intent);
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
         Bundle permission_param = new Bundle();
@@ -159,7 +161,9 @@ public class AutentificacionAvtivity extends AppCompatActivity {
             intent.putExtra( "gname",personName.toString());
             intent.putExtra( "gemail",email.toString());
             intent.putExtra( "gpic",personPhotoUrl.toString());
-            startActivity(intent);
+            intent.putExtra("CHECK", 1);
+            setResult(RESULT_OK, intent);
+            finish();
 
         } else {
             // Signed out, show unauthenticated UI.
@@ -197,4 +201,10 @@ public class AutentificacionAvtivity extends AppCompatActivity {
         // Logs 'app deactivate' App Event.<br />
         AppEventsLogger.deactivateApp(this);
     }
+
+   /* @Override
+    public void onBackPressed() {
+        finish();
+        super.onBackPressed();
+    }*/
 }
