@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "686710192747",
+    "project_id": "firebase-justtv"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:686710192747:android:325ce19314ba5fa6",
+        "android_client_info": {
+          "package_name": "ua.dima.yamschikov.justtv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "686710192747-6k6qpbrnvvaoq4raainuhti2hl7mtcf6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ua.dima.yamschikov.justtv",
+            "certificate_hash": "062B99FD3BA0E3C1A25AB64C3C537F0562CC46D3"
+          }
+        },
+        {
+          "client_id": "686710192747-7d3f8flic6kvqqqaokvvittej6o3tgdf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9C-38LVvRlrAK1oDwHgqzD_w4CVq5K7k"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
