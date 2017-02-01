@@ -1,6 +1,8 @@
 package ua.dima.yamschikov.justtv;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -8,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -34,6 +37,8 @@ public class AutentificacionAvtivity extends AppCompatActivity {
     SignInButton mGoogleSignInButton;
     private static final int RC_SIGN_IN = 9001;
     private GoogleApiClient mGoogleApiClient;
+    final String SAVED_TEXT = "saved_text";
+    SharedPreferences sPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,6 +167,13 @@ public class AutentificacionAvtivity extends AppCompatActivity {
             intent.putExtra( "gemail",email.toString());
             intent.putExtra( "gpic",personPhotoUrl.toString());
             intent.putExtra("CHECK", 1);
+
+            sPref = getPreferences(MODE_PRIVATE);
+            Editor ed = sPref.edit();
+            ed.putString(SAVED_TEXT, personName.toString());
+            ed.commit();
+            Log.d("RT",ed.toString());
+            Toast.makeText(this, "Text saved", Toast.LENGTH_SHORT).show();
             setResult(RESULT_OK, intent);
             finish();
 

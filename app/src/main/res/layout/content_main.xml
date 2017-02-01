@@ -12,5 +12,5 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="ua.dima.yamschikov.justtv.MainActivity"
     tools:showIn="@layout/app_bar_main">
-
+    
 </RelativeLayout>

@@ -1,6 +1,7 @@
 package ua.dima.yamschikov.justtv;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity
     String gname;
     String gemail;
     String gpic;
+    final String SAVED_TEXT = "saved_text";
+    SharedPreferences sPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +41,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        loadText();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -53,8 +56,6 @@ public class MainActivity extends AppCompatActivity
         String t1 = intent.getStringExtra("t1");*/
 
         Log.d("QQ","QQ");
-/////
-
 
         headerview = navigationView.getHeaderView(0);
         nameProfile = (TextView) headerview.findViewById(R.id.name_profile);
@@ -62,6 +63,14 @@ public class MainActivity extends AppCompatActivity
         emailProfile = (TextView) headerview.findViewById(R.id.email_profile);
         loginBtn = (ImageView) headerview.findViewById(R.id.loginBtn);
         loginBtn.setOnClickListener(this);
+        loadText();
+    }
+
+    void loadText() {
+        sPref = getPreferences(MODE_PRIVATE);
+        String savedText = sPref.getString(SAVED_TEXT, "");
+        Log.d("LOAD",savedText);
+        Toast.makeText(this, "Text loaded", Toast.LENGTH_SHORT).show();
     }
 
 

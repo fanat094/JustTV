@@ -18,7 +18,6 @@
         android:layout_height="60dp"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:src="@drawable/account"
-        android:tint="@color/colorPrimary"
         android:layout_gravity="center"/>
 
     <TextView
