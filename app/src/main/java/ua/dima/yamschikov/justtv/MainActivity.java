@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity
     String gemail;
     String gpic;
     final String SAVED_TEXT = "saved_text";
-    SharedPreferences sPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
