@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        loadText();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -67,9 +66,17 @@ public class MainActivity extends AppCompatActivity
     }
 
     void loadText() {
-        sPref = getPreferences(MODE_PRIVATE);
-        String savedText = sPref.getString(SAVED_TEXT, "");
-        Log.d("LOAD",savedText);
+        SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
+        String restoredText = prefs.getString(SAVED_TEXT, null);
+        String restoredText2 = prefs.getString("SAVED_TEXT2", null);
+        nameProfile.setText(restoredText);
+        emailProfile.setText(restoredText2);
+        Log.d("LOADD1",restoredText);
+        if (restoredText != null) {
+            String name = prefs.getString("name", "No name defined");//"No name defined" is the default value.
+            Log.d("LOAD2",restoredText);
+        }
+        Log.d("LOAD3",restoredText);
         Toast.makeText(this, "Text loaded", Toast.LENGTH_SHORT).show();
     }
 

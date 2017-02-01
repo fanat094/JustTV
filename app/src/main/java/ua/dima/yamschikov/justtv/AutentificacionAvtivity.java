@@ -2,7 +2,6 @@ package ua.dima.yamschikov.justtv;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -168,11 +167,10 @@ public class AutentificacionAvtivity extends AppCompatActivity {
             intent.putExtra( "gpic",personPhotoUrl.toString());
             intent.putExtra("CHECK", 1);
 
-            sPref = getPreferences(MODE_PRIVATE);
-            Editor ed = sPref.edit();
-            ed.putString(SAVED_TEXT, personName.toString());
-            ed.commit();
-            Log.d("RT",ed.toString());
+            SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
+            editor.putString(SAVED_TEXT, personName.toString());
+            editor.putString("SAVED_TEXT2", email.toString());
+            editor.commit();
             Toast.makeText(this, "Text saved", Toast.LENGTH_SHORT).show();
             setResult(RESULT_OK, intent);
             finish();
