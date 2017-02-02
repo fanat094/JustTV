@@ -38,6 +38,7 @@ public class AutentificacionAvtivity extends AppCompatActivity {
     private GoogleApiClient mGoogleApiClient;
     final String SAVED_TEXT = "saved_text";
     SharedPreferences sPref;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +128,9 @@ public class AutentificacionAvtivity extends AppCompatActivity {
                 intent.putExtra( "jsondata",json_object.toString());
                 intent.putExtra("CHECK", 0);
                 Log.d("SRAKA", json_object.toString());
+
+                editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
+                editor.putString("SAVED_TEXT3", json_object.toString());
                 setResult(RESULT_OK, intent);
                 finish();
             }
@@ -167,10 +171,9 @@ public class AutentificacionAvtivity extends AppCompatActivity {
             intent.putExtra( "gpic",personPhotoUrl.toString());
             intent.putExtra("CHECK", 1);
 
-            SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
+            editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
             editor.putString(SAVED_TEXT, personName.toString());
             editor.putString("SAVED_TEXT2", email.toString());
-            editor.commit();
             Toast.makeText(this, "Text saved", Toast.LENGTH_SHORT).show();
             setResult(RESULT_OK, intent);
             finish();
@@ -212,9 +215,9 @@ public class AutentificacionAvtivity extends AppCompatActivity {
         AppEventsLogger.deactivateApp(this);
     }
 
-   /* @Override
-    public void onBackPressed() {
-        finish();
-        super.onBackPressed();
-    }*/
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        editor.commit();
+    }
 }

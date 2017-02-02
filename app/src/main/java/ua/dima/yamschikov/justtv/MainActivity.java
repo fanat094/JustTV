@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity
     String gpic;
     final String SAVED_TEXT = "saved_text";
     String push;
+    SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,24 +63,45 @@ public class MainActivity extends AppCompatActivity
         emailProfile = (TextView) headerview.findViewById(R.id.email_profile);
         loginBtn = (ImageView) headerview.findViewById(R.id.loginBtn);
         loginBtn.setOnClickListener(this);
+
+      /*  if(prefs!=null) {
+            loadText();
+        }else {
+            nameProfile.setText("ZAL");
+        }*/
         loadText();
     }
 
     void loadText() {
-        SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
+
+        prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
         String restoredText = prefs.getString(SAVED_TEXT, null);
         String restoredText2 = prefs.getString("SAVED_TEXT2", null);
-        nameProfile.setText(restoredText);
-        emailProfile.setText(restoredText2);
-        Log.d("LOADD1",restoredText);
-        if (restoredText != null) {
-            String name = prefs.getString("name", "No name defined");//"No name defined" is the default value.
-            Log.d("LOAD2",restoredText);
+        if (restoredText!= null && restoredText2!= null) {
+            nameProfile.setText(restoredText);
+            emailProfile.setText(restoredText2);
+            Log.d("LOADD1", restoredText);
+            Log.d("LOAD2", restoredText2);
         }
-        Log.d("LOAD3",restoredText);
+
+        try {
+            String restoredText3 = prefs.getString("SAVED_TEXT3", null);
+            response = new JSONObject(restoredText3);
+            nameProfile.setText(response.get("name").toString());
+            Toast.makeText(this, "Facebook", Toast.LENGTH_SHORT).show();
+            emailProfile.setText(response.get("email").toString());
+            profile_pic_data = new JSONObject(response.get("picture").toString());
+            profile_pic_url = new JSONObject(profile_pic_data.getString("data"));
+            Glide.with(this).load(profile_pic_url.getString("url"))
+                    .into(loginBtn);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
         Toast.makeText(this, "Text loaded", Toast.LENGTH_SHORT).show();
     }
-
 
     public  void  setUserProfile(String jsondata){
                try {
@@ -183,6 +205,7 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        if (data != null) {
         Intent intent = data;
         jsondata = intent.getStringExtra("jsondata");
 
@@ -193,16 +216,16 @@ public class MainActivity extends AppCompatActivity
 
         Intent intentcheck = data;
 
-        int check = intentcheck.getIntExtra("CHECK",3);
+        int check = intentcheck.getIntExtra("CHECK", 3);
         Log.d("check", Integer.toString(check));
 
-        if(check==0) {
+        if (check == 0) {
 
             setUserProfile(jsondata);
 
-        }else
-        if (check==1){
+        } else if (check == 1) {
             setUserProfileGoogle();
         }
+    }
     }
 }
