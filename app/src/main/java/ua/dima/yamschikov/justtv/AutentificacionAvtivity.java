@@ -36,8 +36,10 @@ public class AutentificacionAvtivity extends AppCompatActivity {
     SignInButton mGoogleSignInButton;
     private static final int RC_SIGN_IN = 9001;
     private GoogleApiClient mGoogleApiClient;
-    final String SAVED_TEXT = "saved_text";
-    SharedPreferences sPref;
+    final String SAVED_TEXT_GN = "saved_text_googleName";
+    final String SAVED_TEXT_GE = "saved_text_googleEmail";
+    final String SAVED_TEXT_GU = "saved_text_googleUrl";
+    final String SAVED_TEXT_FK = "saved_text_facebook";
     SharedPreferences.Editor editor;
 
     @Override
@@ -47,7 +49,7 @@ public class AutentificacionAvtivity extends AppCompatActivity {
         setContentView(R.layout.autentificacion_main);
         LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.setReadPermissions("public_profile email");
-        getLoginDetails(loginButton);
+        getLoginDetailsFacebook(loginButton);
 
         mGoogleSignInButton = (SignInButton)findViewById(R.id.google_sign_in_button);
         mGoogleSignInButton.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +66,52 @@ public class AutentificacionAvtivity extends AppCompatActivity {
                 signOut();
             }
         });
+    }
+
+    protected void facebookSDKInitialize() {
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
+    }
+
+    protected void getLoginDetailsFacebook(LoginButton login_button) {
+        // Callback registration<
+        login_button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult login_result) {
+                getUserInfo(login_result);
+            }
+
+            @Override
+            public void onCancel() {
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+
+            }
+        });
+    }
+
+    protected void getUserInfo(final LoginResult login_result) {
+        GraphRequest data_request = GraphRequest.newMeRequest(login_result.getAccessToken(),
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject json_object, GraphResponse response) {
+                        Intent intent = new Intent(AutentificacionAvtivity.this, MainActivity.class);
+                        intent.putExtra( "jsondata",json_object.toString());
+                        intent.putExtra("CHECK", 0);
+                        Log.d("SRAKA", json_object.toString());
+
+                        editor = getSharedPreferences("MY_PREFS_JUSTTV", MODE_PRIVATE).edit();
+                        editor.putString(SAVED_TEXT_FK, json_object.toString());
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
+                });
+        Bundle permission_param = new Bundle();
+        permission_param.putString( "fields", "id, name, email, picture.width(120).height(120)");
+        data_request.setParameters(permission_param);
+        data_request.executeAsync();
     }
 
     private void signInWithGoogle() {
@@ -91,67 +139,6 @@ public class AutentificacionAvtivity extends AppCompatActivity {
                 });
     }
 
-    /*
-        Initialize the facebook sdk and then callback manager will handle the login responses.<br />
-     */
-    protected void facebookSDKInitialize() {
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        callbackManager = CallbackManager.Factory.create();
-    }
-
-    protected void getLoginDetails(LoginButton login_button) {
-        // Callback registration<
-        login_button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult login_result) {
-                getUserInfo(login_result);
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-
-            }
-        });
-        }
-
-    protected void getUserInfo(LoginResult login_result) {
-        GraphRequest data_request = GraphRequest.newMeRequest(login_result.getAccessToken(),
-        new GraphRequest.GraphJSONObjectCallback() {
-            @Override
-            public void onCompleted(JSONObject json_object, GraphResponse response) {
-                Intent intent = new Intent(AutentificacionAvtivity.this, MainActivity.class);
-                intent.putExtra( "jsondata",json_object.toString());
-                intent.putExtra("CHECK", 0);
-                Log.d("SRAKA", json_object.toString());
-
-                editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
-                editor.putString("SAVED_TEXT3", json_object.toString());
-                setResult(RESULT_OK, intent);
-                finish();
-            }
-        });
-        Bundle permission_param = new Bundle();
-        permission_param.putString( "fields", "id, name, email, picture.width(120).height(120)");
-        data_request.setParameters(permission_param);
-        data_request.executeAsync();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-        Log.e("data", data.toString());
-        if (requestCode == RC_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResult(result);}
-
-    }
-
     private void handleSignInResult(GoogleSignInResult result) {
 
         if (result.isSuccess()) {
@@ -171,10 +158,11 @@ public class AutentificacionAvtivity extends AppCompatActivity {
             intent.putExtra( "gpic",personPhotoUrl.toString());
             intent.putExtra("CHECK", 1);
 
-            editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
-            editor.putString(SAVED_TEXT, personName.toString());
-            editor.putString("SAVED_TEXT2", email.toString());
-            Toast.makeText(this, "Text saved", Toast.LENGTH_SHORT).show();
+            editor = getSharedPreferences("MY_PREFS_JUSTTV", MODE_PRIVATE).edit();
+            editor.putString(SAVED_TEXT_GN, personName.toString());
+            editor.putString(SAVED_TEXT_GE, email.toString());
+            //editor.putString(SAVED_TEXT_GU,personPhotoUrl.toString());
+            Toast.makeText(this, "Text saved_GOOGLE", Toast.LENGTH_SHORT).show();
             setResult(RESULT_OK, intent);
             finish();
 
@@ -182,6 +170,17 @@ public class AutentificacionAvtivity extends AppCompatActivity {
             // Signed out, show unauthenticated UI.
             // updateUI(false);
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        Log.e("data", data.toString());
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);}
+
     }
 
     @Override
@@ -218,6 +217,6 @@ public class AutentificacionAvtivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        editor.commit();
+        editor.commit();//вилітає якщо нічого не робити на актівіті авторизації а просто нажати кнопку "Назад"
     }
 }

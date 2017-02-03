@@ -1,5 +1,6 @@
 package ua.dima.yamschikov.justtv;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -18,6 +20,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 
 import org.json.JSONObject;
 
@@ -35,6 +40,12 @@ public class MainActivity extends AppCompatActivity
     final String SAVED_TEXT = "saved_text";
     String push;
     SharedPreferences prefs;
+    CallbackManager callbackManager;
+    SharedPreferences.Editor editor;
+    final String SAVED_TEXT_GN = "saved_text_googleName";
+    final String SAVED_TEXT_GE = "saved_text_googleName";
+    final String SAVED_TEXT_FK = "saved_text_facebook";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +62,10 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        /*Intent intent = getIntent();
-
-        String t1 = intent.getStringExtra("t1");*/
-
         Log.d("QQ","QQ");
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
 
         headerview = navigationView.getHeaderView(0);
         nameProfile = (TextView) headerview.findViewById(R.id.name_profile);
@@ -70,13 +80,15 @@ public class MainActivity extends AppCompatActivity
             nameProfile.setText("ZAL");
         }*/
         loadText();
+        loadSharedPrefs("MY_PREFS_JUSTTV");
     }
 
     void loadText() {
 
-        prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
-        String restoredText = prefs.getString(SAVED_TEXT, null);
-        String restoredText2 = prefs.getString("SAVED_TEXT2", null);
+        prefs = getSharedPreferences("MY_PREFS_JUSTTV", MODE_PRIVATE);
+        editor = getSharedPreferences("MY_PREFS_JUSTTV", MODE_PRIVATE).edit();
+        String restoredText = prefs.getString(SAVED_TEXT_GN, null);
+        String restoredText2 = prefs.getString(SAVED_TEXT_GE, null);
         if (restoredText!= null && restoredText2!= null) {
             nameProfile.setText(restoredText);
             emailProfile.setText(restoredText2);
@@ -85,7 +97,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         try {
-            String restoredText3 = prefs.getString("SAVED_TEXT3", null);
+            String restoredText3 = prefs.getString(SAVED_TEXT_FK, null);
             response = new JSONObject(restoredText3);
             nameProfile.setText(response.get("name").toString());
             Toast.makeText(this, "Facebook", Toast.LENGTH_SHORT).show();
@@ -193,13 +205,95 @@ public class MainActivity extends AppCompatActivity
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.loginBtn:
-                Intent i = new Intent(MainActivity.this, AutentificacionAvtivity.class);
-                startActivityForResult(i, 1);
+
+                prefs = getSharedPreferences("MY_PREFS_JUSTTV", MODE_PRIVATE);
+                editor = getSharedPreferences("MY_PREFS_JUSTTV", MODE_PRIVATE).edit();
+                String restoredText = prefs.getString(SAVED_TEXT_GN, null);
+                String restoredText2 = prefs.getString(SAVED_TEXT_GE, null);
+                String restoredText3 = prefs.getString(SAVED_TEXT_FK, null);
+                if (restoredText == null && restoredText2 == null && restoredText3 == null) {
+
+                    Intent i = new Intent(MainActivity.this, AutentificacionAvtivity.class);
+                    startActivityForResult(i, 1);
+
+                }else {
+
+                    loginBtn.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            new AlertDialog.Builder(MainActivity.this)
+                                    .setTitle( "Cast Recording" )
+                                    .setMessage( "Вийти з акаунту?" )
+                                    .setPositiveButton( "Так", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Log.d( "AlertDialog", "Positive" );
+                                            LoginManager.getInstance().logOut();
+                                            editor.remove(SAVED_TEXT_GN);
+                                            editor.remove(SAVED_TEXT_GE);
+                                            editor.remove(SAVED_TEXT_FK);
+                                            editor.commit();
+                                            Log.d("REMOVE","REMOVE");
+                                        }
+                                    })
+                                    .setNegativeButton( "Ні", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Log.d( "AlertDialog", "Negative" );
+                                        }
+                                    } )
+                                    .show();
+                        }
+                    });
+
+                    /*AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                    alertDialog.setTitle("Alert");
+                    alertDialog.setMessage("Alert message to be shown");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    LoginManager.getInstance().logOut();
+                                    editor.remove(SAVED_TEXT);
+                                    editor.remove("SAVED_TEXT2");
+                                    editor.commit();
+                                    Log.d("REMOVE","REMOVE");
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();*/
+                }
                 break;
             default:
                 break;
         }
     }
+
+    public void loadSharedPrefs(String ... prefs) {
+
+        // Logging messages left in to view Shared Preferences. I filter out all logs except for ERROR; hence why I am printing error messages.
+
+        Log.i("Loading Shared Prefs", "-----------------------------------");
+        Log.i("----------------", "---------------------------------------");
+
+        for (String pref_name: prefs) {
+
+            SharedPreferences preference = getSharedPreferences(pref_name, MODE_PRIVATE);
+            for (String key : preference.getAll().keySet()) {
+
+                Log.i(String.format("Shared Preference JustTV : %s - %s", pref_name, SAVED_TEXT_GN),
+                        preference.getString(key, "error!"));
+                Log.i(String.format("Shared Preference JustTV : %s - %s", pref_name, SAVED_TEXT_GE),
+                        preference.getString(key, "error!"));
+                Log.i(String.format("Shared Preference JustTV : %s - %s", pref_name, SAVED_TEXT_FK),
+                        preference.getString(key, "error!"));
+
+            }
+
+            Log.i("----------------", "---------------------------------------");
+
+        }
+
+        Log.i("Finished Shared Prefs", "----------------------------------");
+
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
