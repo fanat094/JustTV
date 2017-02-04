@@ -43,8 +43,10 @@ public class MainActivity extends AppCompatActivity
     CallbackManager callbackManager;
     SharedPreferences.Editor editor;
     final String SAVED_TEXT_GN = "saved_text_googleName";
-    final String SAVED_TEXT_GE = "saved_text_googleName";
+    final String SAVED_TEXT_GE = "saved_text_googleEmail";
+    final String SAVED_TEXT_GU = "saved_text_googleUrl";
     final String SAVED_TEXT_FK = "saved_text_facebook";
+    DrawerLayout drawer;
 
 
     @Override
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -89,11 +91,14 @@ public class MainActivity extends AppCompatActivity
         editor = getSharedPreferences("MY_PREFS_JUSTTV", MODE_PRIVATE).edit();
         String restoredText = prefs.getString(SAVED_TEXT_GN, null);
         String restoredText2 = prefs.getString(SAVED_TEXT_GE, null);
+        String restoredText4 = prefs.getString(SAVED_TEXT_GU, null);
         if (restoredText!= null && restoredText2!= null) {
             nameProfile.setText(restoredText);
             emailProfile.setText(restoredText2);
+            Glide.with(this).load(restoredText4).skipMemoryCache(true).into(loginBtn);
             Log.d("LOADD1", restoredText);
             Log.d("LOAD2", restoredText2);
+            Log.d("LOADD4", restoredText4);
         }
 
         try {
@@ -104,8 +109,7 @@ public class MainActivity extends AppCompatActivity
             emailProfile.setText(response.get("email").toString());
             profile_pic_data = new JSONObject(response.get("picture").toString());
             profile_pic_url = new JSONObject(profile_pic_data.getString("data"));
-            Glide.with(this).load(profile_pic_url.getString("url"))
-                    .into(loginBtn);
+            Glide.with(this).load(profile_pic_url.getString("url")).into(loginBtn);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -123,8 +127,7 @@ public class MainActivity extends AppCompatActivity
                 emailProfile.setText(response.get("email").toString());
                   profile_pic_data = new JSONObject(response.get("picture").toString());
                            profile_pic_url = new JSONObject(profile_pic_data.getString("data"));
-                   Glide.with(this).load(profile_pic_url.getString("url"))
-                   .into(loginBtn);
+                   Glide.with(this).load(profile_pic_url.getString("url")).skipMemoryCache(true).into(loginBtn);
 
                     } catch (Exception e){
                 e.printStackTrace();
@@ -136,7 +139,7 @@ public class MainActivity extends AppCompatActivity
             nameProfile.setText(gname);
             emailProfile.setText(gemail);
             Toast.makeText(this, "setUserProfileGoogle", Toast.LENGTH_SHORT).show();
-            Glide.with(this).load(gpic).into(loginBtn);
+            Glide.with(this).load(gpic).skipMemoryCache(true).into(loginBtn);
 
         } catch (Exception e){
             e.printStackTrace();
@@ -146,7 +149,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         finish();
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -210,8 +212,9 @@ public class MainActivity extends AppCompatActivity
                 editor = getSharedPreferences("MY_PREFS_JUSTTV", MODE_PRIVATE).edit();
                 String restoredText = prefs.getString(SAVED_TEXT_GN, null);
                 String restoredText2 = prefs.getString(SAVED_TEXT_GE, null);
+                String restoredText4 = prefs.getString(SAVED_TEXT_GU, null);
                 String restoredText3 = prefs.getString(SAVED_TEXT_FK, null);
-                if (restoredText == null && restoredText2 == null && restoredText3 == null) {
+                if (restoredText == null && restoredText2 == null && restoredText3 == null && restoredText4 == null) {
 
                     Intent i = new Intent(MainActivity.this, AutentificacionAvtivity.class);
                     startActivityForResult(i, 1);
@@ -221,7 +224,7 @@ public class MainActivity extends AppCompatActivity
                     loginBtn.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
                             new AlertDialog.Builder(MainActivity.this)
-                                    .setTitle( "Cast Recording" )
+                                    .setTitle( "JusttV" )
                                     .setMessage( "Вийти з акаунту?" )
                                     .setPositiveButton( "Так", new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
@@ -229,8 +232,12 @@ public class MainActivity extends AppCompatActivity
                                             LoginManager.getInstance().logOut();
                                             editor.remove(SAVED_TEXT_GN);
                                             editor.remove(SAVED_TEXT_GE);
+                                            editor.remove(SAVED_TEXT_GU);
                                             editor.remove(SAVED_TEXT_FK);
                                             editor.commit();
+                                            nameProfile.setText("Увійти");
+                                            emailProfile.setText("JustTV");
+                                            drawer.closeDrawer(GravityCompat.START);
                                             Log.d("REMOVE","REMOVE");
                                         }
                                     })
@@ -242,22 +249,6 @@ public class MainActivity extends AppCompatActivity
                                     .show();
                         }
                     });
-
-                    /*AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-                    alertDialog.setTitle("Alert");
-                    alertDialog.setMessage("Alert message to be shown");
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    LoginManager.getInstance().logOut();
-                                    editor.remove(SAVED_TEXT);
-                                    editor.remove("SAVED_TEXT2");
-                                    editor.commit();
-                                    Log.d("REMOVE","REMOVE");
-                                    dialog.dismiss();
-                                }
-                            });
-                    alertDialog.show();*/
                 }
                 break;
             default:

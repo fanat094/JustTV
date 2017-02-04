@@ -161,7 +161,7 @@ public class AutentificacionAvtivity extends AppCompatActivity {
             editor = getSharedPreferences("MY_PREFS_JUSTTV", MODE_PRIVATE).edit();
             editor.putString(SAVED_TEXT_GN, personName.toString());
             editor.putString(SAVED_TEXT_GE, email.toString());
-            //editor.putString(SAVED_TEXT_GU,personPhotoUrl.toString());
+            editor.putString(SAVED_TEXT_GU,personPhotoUrl.toString());
             Toast.makeText(this, "Text saved_GOOGLE", Toast.LENGTH_SHORT).show();
             setResult(RESULT_OK, intent);
             finish();
