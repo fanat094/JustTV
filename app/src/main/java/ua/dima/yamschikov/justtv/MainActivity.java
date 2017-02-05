@@ -10,6 +10,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -25,6 +28,12 @@ import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import ua.dima.yamschikov.justtv.adapters.ChanelAdapter;
+import ua.dima.yamschikov.justtv.constructors.Chanel;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -47,6 +56,10 @@ public class MainActivity extends AppCompatActivity
     final String SAVED_TEXT_GU = "saved_text_googleUrl";
     final String SAVED_TEXT_FK = "saved_text_facebook";
     DrawerLayout drawer;
+
+    private List<Chanel> chanelList = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private ChanelAdapter mAdapter;
 
 
     @Override
@@ -83,6 +96,18 @@ public class MainActivity extends AppCompatActivity
         }*/
         loadText();
         loadSharedPrefs("MY_PREFS_JUSTTV");
+        ImageView ff = (ImageView) findViewById(R.id.orel);
+
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
+        mAdapter = new ChanelAdapter(chanelList);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(mAdapter);
+
+        chanelList.clear();
+        prepareChanelData();
     }
 
     void loadText() {
@@ -109,7 +134,7 @@ public class MainActivity extends AppCompatActivity
             emailProfile.setText(response.get("email").toString());
             profile_pic_data = new JSONObject(response.get("picture").toString());
             profile_pic_url = new JSONObject(profile_pic_data.getString("data"));
-            Glide.with(this).load(profile_pic_url.getString("url")).into(loginBtn);
+            Glide.with(this).load(profile_pic_url.getString("url")).skipMemoryCache(true).into(loginBtn);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -186,7 +211,13 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
+            chanelList.clear();
+            prepareChanelData();
         } else if (id == R.id.nav_gallery) {
+
+            Toast.makeText(this,"nav_gallery",Toast.LENGTH_LONG).show();
+            chanelList.clear();
+            prepareChanelData2();
 
         } else if (id == R.id.nav_slideshow) {
 
@@ -238,6 +269,9 @@ public class MainActivity extends AppCompatActivity
                                             nameProfile.setText("Увійти");
                                             emailProfile.setText("JustTV");
                                             drawer.closeDrawer(GravityCompat.START);
+                                            Intent intent = new Intent(MainActivity.this, SplashActivity.class);
+                                            startActivity(intent);
+                                            finish();
                                             Log.d("REMOVE","REMOVE");
                                         }
                                     })
@@ -312,5 +346,35 @@ public class MainActivity extends AppCompatActivity
             setUserProfileGoogle();
         }
     }
+    }
+
+    private void prepareChanelData() {
+
+        Chanel chanel = new Chanel(R.mipmap.ic_launcher, "1+1");
+        chanelList.add(chanel);
+
+        chanel = new Chanel(R.mipmap.ic_launcher, "Новий канал");
+        chanelList.add(chanel);
+
+        chanel = new Chanel(R.mipmap.ic_launcher, "Мега");
+        chanelList.add(chanel);
+
+        chanel = new Chanel(R.mipmap.ic_launcher, "Мега");
+        chanelList.add(chanel);
+        chanel = new Chanel(R.mipmap.ic_launcher, "Мега");
+        chanelList.add(chanel);
+        chanel = new Chanel(R.mipmap.ic_launcher, "Мега");
+        chanelList.add(chanel);chanel = new Chanel(R.mipmap.ic_launcher, "Мега");
+        chanelList.add(chanel);
+
+        mAdapter.notifyDataSetChanged();
+
+    }
+    private void prepareChanelData2() {
+        Chanel chanel = new Chanel(R.mipmap.ic_launcher, "1+1+1");
+        chanelList.add(chanel);
+
+        mAdapter.notifyDataSetChanged();
+
     }
 }
