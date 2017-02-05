@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity
     String gemail;
     String gpic;
     final String SAVED_TEXT = "saved_text";
-    String push;
     SharedPreferences prefs;
     CallbackManager callbackManager;
     SharedPreferences.Editor editor;
