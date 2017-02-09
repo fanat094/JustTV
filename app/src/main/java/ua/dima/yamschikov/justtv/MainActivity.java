@@ -3,6 +3,7 @@ package ua.dima.yamschikov.justtv;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -10,18 +11,20 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.easyvideoplayer.EasyVideoCallback;
+import com.afollestad.easyvideoplayer.EasyVideoPlayer;
 import com.bumptech.glide.Glide;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
@@ -30,13 +33,14 @@ import com.facebook.login.LoginManager;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import ua.dima.yamschikov.justtv.adapters.BoxAdapter;
 import ua.dima.yamschikov.justtv.adapters.ChanelAdapter;
 import ua.dima.yamschikov.justtv.constructors.Chanel;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, EasyVideoCallback,
+        AdapterView.OnItemClickListener{
 
     View headerview;
     ImageView loginBtn;
@@ -56,9 +60,19 @@ public class MainActivity extends AppCompatActivity
     final String SAVED_TEXT_FK = "saved_text_facebook";
     DrawerLayout drawer;
 
-    private List<Chanel> chanelList = new ArrayList<>();
+    //private List<Chanel> chanelList = new ArrayList<>();
+    ArrayList<Chanel> chanelList = new ArrayList<Chanel>();
     private RecyclerView recyclerView;
     private ChanelAdapter mAdapter;
+    String push;
+
+    ArrayList<Chanel> products = new ArrayList<Chanel>();
+    BoxAdapter boxAdapter;
+    ListView lvMain;
+
+    private EasyVideoPlayer player;
+    private static final String TEST_URL = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
+    private static final String stb = "http://194.247.13.104:8081/stb/index.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9OS8xNC8yMDE2IDU6MDE6NTggf7f038b8dfac99dd5e5f16e985ddb612bkEyZk92TzJrU3V3PT0mdmFsaWRtaW51dGVzPTIwMA==";
 
 
     @Override
@@ -95,18 +109,40 @@ public class MainActivity extends AppCompatActivity
         }*/
         loadText();
         loadSharedPrefs("MY_PREFS_JUSTTV");
-        ImageView ff = (ImageView) findViewById(R.id.orel);
+        //ImageView ff = (ImageView) findViewById(R.id.orel);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+       /* recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
         mAdapter = new ChanelAdapter(chanelList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(mAdapter);
+        recyclerView.setAdapter(mAdapter);*/
 
+        // создаем адаптер
+        //fillData();
         chanelList.clear();
         prepareChanelData();
+        boxAdapter = new BoxAdapter(this, chanelList);
+        // настраиваем список
+        lvMain = (ListView) findViewById(R.id.recycler_view);
+        lvMain.setAdapter(boxAdapter);
+        lvMain.setOnItemClickListener(this);
+
+        player = (EasyVideoPlayer) findViewById(R.id.player);
+        // player = new EasyVideoPlayer(this);
+        player.setCallback(this);
+        player.setSource(Uri.parse(stb));
+    }
+
+   // lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {}
+
+    // генерируем данные для адаптера
+    void fillData() {
+        for (int i = 1; i <= 20; i++) {
+           // chanel = new Chanel(R.mipmap.ic_launcher, "Мега", "");
+            products.add(new Chanel(R.mipmap.ic_launcher, "Мега"+i, ""));
+        }
     }
 
     void loadText() {
@@ -210,13 +246,16 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
-            chanelList.clear();
+          // chanelList.clear();
+           /* chanelList.clear();
             prepareChanelData();
+            lvMain.setAdapter(boxAdapter);*/
         } else if (id == R.id.nav_gallery) {
 
-            Toast.makeText(this,"nav_gallery",Toast.LENGTH_LONG).show();
+            /*Toast.makeText(this,"nav_gallery",Toast.LENGTH_LONG).show();
             chanelList.clear();
             prepareChanelData2();
+            lvMain.setAdapter(boxAdapter);*/
 
         } else if (id == R.id.nav_slideshow) {
 
@@ -349,31 +388,90 @@ public class MainActivity extends AppCompatActivity
 
     private void prepareChanelData() {
 
-        Chanel chanel = new Chanel(R.mipmap.ic_launcher, "1+1");
+        Chanel chanel = new Chanel(R.mipmap.ic_launcher, "1+1", "");
         chanelList.add(chanel);
 
-        chanel = new Chanel(R.mipmap.ic_launcher, "Новий канал");
+        chanel = new Chanel(R.mipmap.ic_launcher, "Новий канал", "");
         chanelList.add(chanel);
 
-        chanel = new Chanel(R.mipmap.ic_launcher, "Мега");
+        chanel = new Chanel(R.mipmap.ic_launcher, "Мега", "");
         chanelList.add(chanel);
 
-        chanel = new Chanel(R.mipmap.ic_launcher, "Мега");
+        chanel = new Chanel(R.mipmap.ic_launcher, "Мега", "");
         chanelList.add(chanel);
-        chanel = new Chanel(R.mipmap.ic_launcher, "Мега");
+        chanel = new Chanel(R.mipmap.ic_launcher, "Мега", "");
         chanelList.add(chanel);
-        chanel = new Chanel(R.mipmap.ic_launcher, "Мега");
-        chanelList.add(chanel);chanel = new Chanel(R.mipmap.ic_launcher, "Мега");
+        chanel = new Chanel(R.mipmap.ic_launcher, "Мега", "");
+        chanelList.add(chanel);
+        chanel = new Chanel(R.mipmap.ic_launcher, "Мега", "");
         chanelList.add(chanel);
 
-        mAdapter.notifyDataSetChanged();
+      //  mAdapter.notifyDataSetChanged();
 
     }
     private void prepareChanelData2() {
-        Chanel chanel = new Chanel(R.mipmap.ic_launcher, "1+1+1");
+        Chanel chanel = new Chanel(R.mipmap.ic_launcher, "1+1+1", "");
         chanelList.add(chanel);
 
-        mAdapter.notifyDataSetChanged();
+        //mAdapter.notifyDataSetChanged();
 
+    }
+
+    @Override
+    public void onStarted(EasyVideoPlayer player) {
+
+    }
+
+    @Override
+    public void onPaused(EasyVideoPlayer player) {
+        player.pause();
+    }
+
+    @Override
+    public void onPreparing(EasyVideoPlayer player) {
+
+    }
+
+    @Override
+    public void onPrepared(EasyVideoPlayer player) {
+
+    }
+
+    @Override
+    public void onBuffering(int percent) {
+
+    }
+
+    @Override
+    public void onError(EasyVideoPlayer player, Exception e) {
+
+    }
+
+    @Override
+    public void onCompletion(EasyVideoPlayer player) {
+
+    }
+
+    @Override
+    public void onRetry(EasyVideoPlayer player, Uri source) {
+
+    }
+
+    @Override
+    public void onSubmit(EasyVideoPlayer player, Uri source) {
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        player.stop();
+        assert player == null;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Log.d("CLICK!","CLICK");
+        Toast.makeText(getApplicationContext(), "LOL"+i, Toast.LENGTH_SHORT).show();
     }
 }
