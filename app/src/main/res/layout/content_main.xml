@@ -21,7 +21,7 @@
             android:id="@+id/player"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            app:evp_autoFullscreen="false"
+            app:evp_autoFullscreen="true"
             app:evp_autoPlay="true"
             app:evp_customLabelText="Hello!"
             app:evp_disableControls="false"

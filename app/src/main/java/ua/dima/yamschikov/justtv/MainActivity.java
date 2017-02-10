@@ -25,6 +25,11 @@ import android.widget.Toast;
 
 import com.afollestad.easyvideoplayer.EasyVideoCallback;
 import com.afollestad.easyvideoplayer.EasyVideoPlayer;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
@@ -33,6 +38,8 @@ import com.facebook.login.LoginManager;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import ua.dima.yamschikov.justtv.adapters.BoxAdapter;
 import ua.dima.yamschikov.justtv.adapters.ChanelAdapter;
@@ -72,7 +79,9 @@ public class MainActivity extends AppCompatActivity
 
     private EasyVideoPlayer player;
     private static final String TEST_URL = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
-    private static final String stb = "http://194.247.13.104:8081/stb/index.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9OS8xNC8yMDE2IDU6MDE6NTggf7f038b8dfac99dd5e5f16e985ddb612bkEyZk92TzJrU3V3PT0mdmFsaWRtaW51dGVzPTIwMA==";
+    private static final String newchanel = "rtmp://195.154.10.174:1935/app/novy?st=w_OxsCLwgRcWkSD1QcXg4w";
+    private static final String tnt = "http://178.162.205.119:8081/liveg/tnt.stream/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9Mi85LzIwMTcgNzowMjozNSBQTSZoYXNoX3ZhbHVlPVBPRE9lamR5ZE1TSVpEU2ZkT0w2WkE9PSZ2YWxpZG1pbnV0ZXM9MjAw";
+    private static final String stb = "http://194.247.13.104:8081/stb/index.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9OS8xNC8yMDE2IDU6MDE6NTgg172b70d07ec40ac4d7ae67296423addcbkEyZk92TzJrU3V3PT0mdmFsaWRtaW51dGVzPTIwMA==";
 
 
     @Override
@@ -132,7 +141,7 @@ public class MainActivity extends AppCompatActivity
         player = (EasyVideoPlayer) findViewById(R.id.player);
         // player = new EasyVideoPlayer(this);
         player.setCallback(this);
-        player.setSource(Uri.parse(stb));
+        player.setSource(Uri.parse(TEST_URL));
     }
 
    // lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {}
@@ -247,15 +256,15 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
           // chanelList.clear();
-           /* chanelList.clear();
+            chanelList.clear();
             prepareChanelData();
-            lvMain.setAdapter(boxAdapter);*/
+            lvMain.setAdapter(boxAdapter);
         } else if (id == R.id.nav_gallery) {
 
-            /*Toast.makeText(this,"nav_gallery",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"nav_gallery",Toast.LENGTH_LONG).show();
             chanelList.clear();
             prepareChanelData2();
-            lvMain.setAdapter(boxAdapter);*/
+            lvMain.setAdapter(boxAdapter);
 
         } else if (id == R.id.nav_slideshow) {
 
@@ -388,16 +397,16 @@ public class MainActivity extends AppCompatActivity
 
     private void prepareChanelData() {
 
-        Chanel chanel = new Chanel(R.mipmap.ic_launcher, "1+1", "");
+        Chanel chanel = new Chanel(R.mipmap.ic_launcher, "1+1", "http://vsitv.org/uastb.html");
         chanelList.add(chanel);
 
-        chanel = new Chanel(R.mipmap.ic_launcher, "Новий канал", "");
+        chanel = new Chanel(R.mipmap.ic_launcher, "Новий канал", newchanel);
         chanelList.add(chanel);
 
-        chanel = new Chanel(R.mipmap.ic_launcher, "Мега", "");
+        chanel = new Chanel(R.mipmap.ic_launcher, "СТБ", stb);
         chanelList.add(chanel);
 
-        chanel = new Chanel(R.mipmap.ic_launcher, "Мега", "");
+        chanel = new Chanel(R.mipmap.ic_launcher, "Мега", "http://vsitv.org/mega.html");
         chanelList.add(chanel);
         chanel = new Chanel(R.mipmap.ic_launcher, "Мега", "");
         chanelList.add(chanel);
@@ -410,7 +419,7 @@ public class MainActivity extends AppCompatActivity
 
     }
     private void prepareChanelData2() {
-        Chanel chanel = new Chanel(R.mipmap.ic_launcher, "1+1+1", "");
+        Chanel chanel = new Chanel(R.mipmap.ic_launcher, "ТНТ", tnt);
         chanelList.add(chanel);
 
         //mAdapter.notifyDataSetChanged();
@@ -469,9 +478,61 @@ public class MainActivity extends AppCompatActivity
         assert player == null;
     }
 
+    public void regEx(String url){
+
+        //String url = "http://vsitv.org/uastb.html";
+
+// Request a string response
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        // Result handling
+                        System.out.println(response.substring(0,100));
+                        Log.d("WWW",response);
+
+
+                        String buff = null;
+
+                        Pattern pattern = Pattern.compile("http:[/]{2}[0-9]{3}[.][0-9]{3}[.][0-9]{2}[.][0-9]{3}[:][0-9]{4}[/][\\w]+[/][\\w]{5}[.][\\w]{4}[?][\\w]{11}[=][\\w]{114}[=]{2}");
+
+                        Matcher matcher = pattern.matcher(response);
+
+                        while (matcher.find()){
+                            //Log.i("StreamLink",response.substring(matcher.start()+9, matcher.end()-1));
+                            buff = response.substring(matcher.start()+0, matcher.end()-1);
+                        }
+
+                        //playVideo(buff);
+                        player.setSource(Uri.parse(buff));
+                        Log.d("BUF",buff);
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                // Error handling
+                System.out.println("Something went wrong!");
+                error.printStackTrace();
+
+            }
+        });
+
+// Add the request to the queue
+        Volley.newRequestQueue(this).add(stringRequest);
+    }
+
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Log.d("CLICK!","CLICK");
         Toast.makeText(getApplicationContext(), "LOL"+i, Toast.LENGTH_SHORT).show();
+
+        String positionurl = chanelList.get(i).getUrl();
+        Log.d("ididid", positionurl);
+        regEx(positionurl);
+
+
     }
 }
