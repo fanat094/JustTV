@@ -1,8 +1,10 @@
 package ua.dima.yamschikov.justtv;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -41,6 +43,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import tcking.github.com.giraffeplayer.GiraffePlayer;
 import ua.dima.yamschikov.justtv.adapters.BoxAdapter;
 import ua.dima.yamschikov.justtv.adapters.ChanelAdapter;
 import ua.dima.yamschikov.justtv.constructors.Chanel;
@@ -77,7 +80,11 @@ public class MainActivity extends AppCompatActivity
     BoxAdapter boxAdapter;
     ListView lvMain;
 
-    private EasyVideoPlayer player;
+    ProgressDialog mProgressDialog;
+
+    private GiraffePlayer player;
+
+    //private EasyVideoPlayer player;
     private static final String TEST_URL = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
     private static final String newchanel = "rtmp://195.154.10.174:1935/app/novy?st=w_OxsCLwgRcWkSD1QcXg4w";
     private static final String tnt = "http://178.162.205.119:8081/liveg/tnt.stream/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9Mi85LzIwMTcgNzowMjozNSBQTSZoYXNoX3ZhbHVlPVBPRE9lamR5ZE1TSVpEU2ZkT0w2WkE9PSZ2YWxpZG1pbnV0ZXM9MjAw";
@@ -100,6 +107,9 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         Log.d("QQ","QQ");
+
+        player = new GiraffePlayer(this);
+        player.play(TEST_URL);
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
@@ -138,10 +148,14 @@ public class MainActivity extends AppCompatActivity
         lvMain.setAdapter(boxAdapter);
         lvMain.setOnItemClickListener(this);
 
-        player = (EasyVideoPlayer) findViewById(R.id.player);
+       // player = (EasyVideoPlayer) findViewById(R.id.player);
         // player = new EasyVideoPlayer(this);
-        player.setCallback(this);
-        player.setSource(Uri.parse(TEST_URL));
+       // player.setCallback(this);
+       // player.setSource(Uri.parse(TEST_URL));
+
+
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setMessage("Loading...");
     }
 
    // lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {}
@@ -218,6 +232,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         finish();
+        if (player != null && player.onBackPressed()) {
+            return;
+        }
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -472,10 +489,61 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        if (player != null) {
+            player.onPause();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (player != null) {
+            player.onResume();
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         player.stop();
         assert player == null;
+    }
+
+   /*private LinearLayout.LayoutParams paramsNotFullscreen; //if you're using RelativeLatout
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+   @Override
+   public void onConfigurationChanged(Configuration newConfig)
+    {
+        super.onConfigurationChanged(newConfig);
+
+
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) //To fullscreen
+        {
+            //Remove notification bar
+            this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            paramsNotFullscreen=(LinearLayout.LayoutParams)player.getLayoutParams();
+            LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(paramsNotFullscreen);
+            params.setMargins(0, 0, 0, 0);
+            params.height= ViewGroup.LayoutParams.MATCH_PARENT;
+            params.width=ViewGroup.LayoutParams.MATCH_PARENT;
+            player.setLayoutParams(params);
+
+        }
+        else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT)
+        {
+            player.setLayoutParams(paramsNotFullscreen);
+        }
+    }*/
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (player != null) {
+            player.onConfigurationChanged(newConfig);
+        }
     }
 
     public void regEx(String url){
@@ -505,8 +573,11 @@ public class MainActivity extends AppCompatActivity
                         }
 
                         //playVideo(buff);
-                        player.setSource(Uri.parse(buff));
+
+                        //player.setSource(Uri.parse(buff));
                         Log.d("BUF",buff);
+                        player.play(buff);
+                        mProgressDialog.dismiss();
 
                     }
                 }, new Response.ErrorListener() {
@@ -531,8 +602,13 @@ public class MainActivity extends AppCompatActivity
 
         String positionurl = chanelList.get(i).getUrl();
         Log.d("ididid", positionurl);
+        //mProgressDialog.show();
         regEx(positionurl);
-
-
     }
+
+    /*@Override
+    public void onVideoProgressUpdate(int position, int duration) {
+        player.setProgressCallback(this);
+        player.setCallback(this);
+    }*/
 }

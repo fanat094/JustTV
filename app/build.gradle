@@ -34,6 +34,5 @@ dependencies {
     compile 'com.afollestad:easyvideoplayer:0.3.0'
     compile 'com.android.volley:volley:1.0.0'
     testCompile 'junit:junit:4.12'
-
-
+    compile project(':giraffeplayer')
 }
