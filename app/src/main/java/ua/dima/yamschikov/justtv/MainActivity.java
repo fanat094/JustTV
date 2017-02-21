@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -18,7 +17,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -28,8 +26,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.easyvideoplayer.EasyVideoCallback;
-import com.afollestad.easyvideoplayer.EasyVideoPlayer;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -52,7 +48,7 @@ import ua.dima.yamschikov.justtv.adapters.ChanelAdapter;
 import ua.dima.yamschikov.justtv.constructors.Chanel;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, EasyVideoCallback,
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener,
         AdapterView.OnItemClickListener{
 
     View headerview;
@@ -111,8 +107,6 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Log.d("QQ","QQ");
-
         player = new GiraffePlayer(this);
         player.play(TEST_URL);
 
@@ -157,10 +151,7 @@ public class MainActivity extends AppCompatActivity
         // player = new EasyVideoPlayer(this);
        // player.setCallback(this);
        // player.setSource(Uri.parse(TEST_URL));
-
-
-        mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setMessage("Loading...");
+        displayView(R.id.nav_all_chanels);
     }
 
    // lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {}
@@ -193,7 +184,7 @@ public class MainActivity extends AppCompatActivity
             String restoredText3 = prefs.getString(SAVED_TEXT_FK, null);
             response = new JSONObject(restoredText3);
             nameProfile.setText(response.get("name").toString());
-            Toast.makeText(this, "Facebook", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Facebook", Toast.LENGTH_SHORT).show();
             emailProfile.setText(response.get("email").toString());
             profile_pic_data = new JSONObject(response.get("picture").toString());
             profile_pic_url = new JSONObject(profile_pic_data.getString("data"));
@@ -204,14 +195,14 @@ public class MainActivity extends AppCompatActivity
         }
 
 
-        Toast.makeText(this, "Text loaded", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Text loaded", Toast.LENGTH_SHORT).show();
     }
 
     public  void  setUserProfile(String jsondata){
                try {
                 response = new JSONObject(jsondata);
                 nameProfile.setText(response.get("name").toString());
-                   Toast.makeText(this, "Facebook", Toast.LENGTH_SHORT).show();
+                   //Toast.makeText(this, "Facebook", Toast.LENGTH_SHORT).show();
                 emailProfile.setText(response.get("email").toString());
                   profile_pic_data = new JSONObject(response.get("picture").toString());
                            profile_pic_url = new JSONObject(profile_pic_data.getString("data"));
@@ -226,7 +217,7 @@ public class MainActivity extends AppCompatActivity
         try {
             nameProfile.setText(gname);
             emailProfile.setText(gemail);
-            Toast.makeText(this, "setUserProfileGoogle", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "setUserProfileGoogle", Toast.LENGTH_SHORT).show();
             Glide.with(this).load(gpic).skipMemoryCache(true).into(loginBtn);
 
         } catch (Exception e){
@@ -272,54 +263,59 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
+    private void displayView(int viewId) {
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        String title_tb = getString(R.string.app_name);
+        switch (viewId) {
+            case R.id.nav_all_chanels:
+                title_tb = getString(R.string.title_nav_all_chanels);
+                break;
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+            case R.id.nav_ua_chanels:
+                title_tb = getString(R.string.title_nav_ua_chanels);
+                break;
+
+            case R.id.nav_ru_chanels:
+                title_tb = getString(R.string.title_nav_ru_chanels);
+                break;
+
+            case R.id.nav_about_app:
+                title_tb = getString(R.string.title_nav_about_app);
+                break;
+
+            default:
+                break;
         }
-
-        return super.onOptionsItemSelected(item);
+        // set the toolbar title
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(title_tb);
+        }
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        displayView(item.getItemId());
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_all_chanels) {
             // Handle the camera action
           // chanelList.clear();
             chanelList.clear();
             prepareChanelData();
             lvMain.setAdapter(boxAdapter);
-        } else if (id == R.id.nav_gallery) {
 
-            Toast.makeText(this,"nav_gallery",Toast.LENGTH_LONG).show();
+        } else if (id == R.id.nav_ua_chanels) {
+
+            //Toast.makeText(this,"nav_gallery",Toast.LENGTH_LONG).show();
             chanelList.clear();
             prepareChanelData2();
             lvMain.setAdapter(boxAdapter);
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_ru_chanels) {
 
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_about_app) {
 
         }
 
@@ -444,77 +440,102 @@ public class MainActivity extends AppCompatActivity
 
     private void prepareChanelData() {
 
-        Chanel chanel = new Chanel(R.mipmap.ic_launcher, "1+1", "http://vsitv.org/uastb.html");
+        String[] title_chanels = getResources().getStringArray(R.array.title_chanels);
+        String[] url_chanels = getResources().getStringArray(R.array.url_chanels);
+
+        Chanel chanel = new Chanel(R.drawable.stb_chanel, title_chanels[0], url_chanels[0]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.ukraine_chanel, title_chanels[1], url_chanels[1]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.telekanal_novy, title_chanels[2], url_chanels[2]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.ictv_chanel, title_chanels[3], url_chanels[3]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.inter_chanel, title_chanels[4], url_chanels[4]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.inter_chanel, title_chanels[5], url_chanels[5]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.ntn_chanel, title_chanels[6], url_chanels[6]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.k1_chanel, title_chanels[7], url_chanels[7]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.k2_chanel, title_chanels[8], url_chanels[8]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.enter_film_chanel, title_chanels[9], url_chanels[9]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.mega_chanel, title_chanels[10], url_chanels[10]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.chanel24_chanel, title_chanels[11], url_chanels[11]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.tnt_chanel, title_chanels[12], url_chanels[12]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.sts_chanel, title_chanels[13], url_chanels[13]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.pervyi_chanel, title_chanels[14], url_chanels[14]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.matchtv_chanel, title_chanels[15], url_chanels[15]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.ntv_chanel, title_chanels[16], url_chanels[16]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.rentv_chanel, title_chanels[17], url_chanels[17]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.che_chanel, title_chanels[18], url_chanels[18]);
         chanelList.add(chanel);
 
-        chanel = new Chanel(R.mipmap.ic_launcher, "Новий канал", newchanel);
+        chanel = new Chanel(R.drawable.pyatnica_chanel, title_chanels[19], url_chanels[19]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.moyaplaneta_chanel, title_chanels[20], url_chanels[20]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[21], url_chanels[21]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[22], url_chanels[22]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[23], url_chanels[23]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[24], url_chanels[24]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[25], url_chanels[25]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[26], url_chanels[26]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[27], url_chanels[27]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[28], url_chanels[28]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[29], url_chanels[29]);
         chanelList.add(chanel);
 
-        chanel = new Chanel(R.mipmap.ic_launcher, "СТБ", stb);
+        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[30], url_chanels[30]);
         chanelList.add(chanel);
-
-        chanel = new Chanel(R.mipmap.ic_launcher, "Мега", "http://vsitv.org/mega.html");
+        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[31], url_chanels[31]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.mipmap.ic_launcher, "Мега", "");
+        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[32], url_chanels[32]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.mipmap.ic_launcher, "Мега", "");
+        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[33], url_chanels[33]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.mipmap.ic_launcher, "Мега", "");
+        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[34], url_chanels[34]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[35], url_chanels[35]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[36], url_chanels[36]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[37], url_chanels[37]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[38], url_chanels[38]);
         chanelList.add(chanel);
 
       //  mAdapter.notifyDataSetChanged();
 
     }
     private void prepareChanelData2() {
-        Chanel chanel = new Chanel(R.mipmap.ic_launcher, "ТНТ", tnt);
+
+        String[] title_chanels_ru = getResources().getStringArray(R.array.title_chanels_ru);
+        String[] url_chanels_ru = getResources().getStringArray(R.array.url_chanels_ru);
+
+        Chanel chanel = new Chanel(R.mipmap.ic_launcher, title_chanels_ru[0], url_chanels_ru[0]);
         chanelList.add(chanel);
 
         //mAdapter.notifyDataSetChanged();
-
-    }
-
-    @Override
-    public void onStarted(EasyVideoPlayer player) {
-
-    }
-
-    @Override
-    public void onPaused(EasyVideoPlayer player) {
-        player.pause();
-    }
-
-    @Override
-    public void onPreparing(EasyVideoPlayer player) {
-
-    }
-
-    @Override
-    public void onPrepared(EasyVideoPlayer player) {
-
-    }
-
-    @Override
-    public void onBuffering(int percent) {
-
-    }
-
-    @Override
-    public void onError(EasyVideoPlayer player, Exception e) {
-
-    }
-
-    @Override
-    public void onCompletion(EasyVideoPlayer player) {
-
-    }
-
-    @Override
-    public void onRetry(EasyVideoPlayer player, Uri source) {
-
-    }
-
-    @Override
-    public void onSubmit(EasyVideoPlayer player, Uri source) {
 
     }
 
@@ -578,36 +599,112 @@ public class MainActivity extends AppCompatActivity
 
     public void regEx(String url){
 
-        //String url = "http://vsitv.org/uastb.html";
-
-// Request a string response
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 
                         // Result handling
-                        System.out.println(response.substring(0,100));
-                        Log.d("WWW",response);
-
+                        //System.out.println(response.substring(0,100));
+                        Log.d("WWWResponse",response);
 
                         String buff = null;
 
-                        Pattern pattern = Pattern.compile("http:[/]{2}[0-9]{3}[.][0-9]{3}[.][0-9]{2}[.][0-9]{3}[:][0-9]{4}[/][\\w]+[/][\\w]{5}[.][\\w]{4}[?][\\w]{11}[=][\\w]{114}[=]{2}");
+                        int lengtresponse = response.length();
+                        Log.d("WWWlength", String.valueOf(response.length()));
 
-                        Matcher matcher = pattern.matcher(response);
+                        if(lengtresponse>9075 & lengtresponse<16000) {
 
-                        while (matcher.find()){
-                            //Log.i("StreamLink",response.substring(matcher.start()+9, matcher.end()-1));
-                            buff = response.substring(matcher.start()+0, matcher.end()-1);
+                            Pattern pattern = Pattern.compile("http:[/]{2}[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+[:][0-9]{4}[/][\\w]+[-]{0,1}[/]{0,1}[\\w]+[/][\\w]+[.][\\w]+[/][\\w]+[.][\\w]+[?][\\w]+[=][\\w]+[=]{0,}");
+
+                            Matcher matcher = pattern.matcher(response);
+
+                            while (matcher.find()) {
+                                //Log.i("StreamLink",response.substring(matcher.start()+9, matcher.end()-1));
+                                buff = response.substring(matcher.start() + 0, matcher.end() - 0);
+                            }
                         }
 
+                        else
+                        if (lengtresponse>=16000) {
+
+                            Pattern pattern = Pattern.compile("http:[/]{2}[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+[:][0-9]{4}[/][\\w]+[-]{0,1}[/]{0,1}[\\w]+[/][\\w]+[.][\\w]+[/][\\w]+[.][\\w]+[?][\\w]+[=][\\w]+[=]{0,}");
+
+                            Matcher matcher = pattern.matcher(response);
+
+                            while (matcher.find()) {
+                                //Log.i("StreamLink",response.substring(matcher.start()+9, matcher.end()-1));
+                                buff = response.substring(matcher.start() + 0, matcher.end() - 0);
+                            }
+                        }
+
+                        else
+                            if (lengtresponse == 8174) {
+
+                                Pattern pattern = Pattern.compile("http:[/]{2}[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+[/][\\w]+[/][\\w]+[.][\\w]+");
+
+                                Matcher matcher = pattern.matcher(response);
+
+                                while (matcher.find()) {
+                                    //Log.i("StreamLink",response.substring(matcher.start()+9, matcher.end()-1));
+                                    buff = response.substring(matcher.start() + 0, matcher.end() - 0);
+                                }
+                            }
+
+                            else
+                            if (lengtresponse == 8348) {
+
+                                Pattern pattern = Pattern.compile("http:[/]{2}[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+[/][\\w]+[/][\\w]+[.][\\w]+");
+
+                                Matcher matcher = pattern.matcher(response);
+
+                                while (matcher.find()) {
+                                    //Log.i("StreamLink",response.substring(matcher.start()+9, matcher.end()-1));
+                                    buff = response.substring(matcher.start() + 0, matcher.end() - 0);
+                                }
+                            }
+
+                            else
+                            if (lengtresponse == 8226) { //24 chanel
+
+                                Pattern pattern = Pattern.compile("http:[/]{2}[\\w]+[.][\\w]+[.][\\w]+[/][\\w]+[/][\\w]+[:][\\w]+[.][\\w]+[.][\\w]+[/][\\w]+[.][\\w]+");
+
+                                Matcher matcher = pattern.matcher(response);
+
+                                while (matcher.find()) {
+                                    //Log.i("StreamLink",response.substring(matcher.start()+9, matcher.end()-1));
+                                    buff = response.substring(matcher.start() + 0, matcher.end() - 0);
+                                }
+                            }
+
+                            else
+                            if (lengtresponse == 9073) { //inter
+
+                                Pattern pattern = Pattern.compile("http:[/]{2}[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+[/][\\w]+[/][\\w]+[.][\\w]+");
+
+                                Matcher matcher = pattern.matcher(response);
+
+                                while (matcher.find()) {
+                                    //Log.i("StreamLink",response.substring(matcher.start()+9, matcher.end()-1));
+                                    buff = response.substring(matcher.start() + 0, matcher.end() - 0);
+                                }
+                            }
+
+                        else {
+
+                            Pattern pattern = Pattern.compile("http:[/]{2}[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+[:][0-9]{4}[/][\\w]+[-]{0,1}[/]{0,1}[\\w]+[/][\\w]+[.][\\w]{4}[?][\\w]{11}[=][\\w]{114}[=]{0,}");
+                            Matcher matcher = pattern.matcher(response);
+
+                            while (matcher.find()) {
+                                //Log.i("StreamLink",response.substring(matcher.start()+9, matcher.end()-1));
+                                buff = response.substring(matcher.start() + 0, matcher.end() - 0);
+                            }
+                        }
                         //playVideo(buff);
 
-                        //player.setSource(Uri.parse(buff));
-                        Log.d("BUF",buff);
-                        player.play(buff);
-                        mProgressDialog.dismiss();
+                         //player.setSource(Uri.parse(buff));
+                         Log.d("BUFplayer",buff);
+                         player.play(buff);
 
                     }
                 }, new Response.ErrorListener() {
@@ -628,17 +725,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Log.d("CLICK!","CLICK");
-        Toast.makeText(getApplicationContext(), "LOL"+i, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), "LOL"+i, Toast.LENGTH_SHORT).show();
 
         String positionurl = chanelList.get(i).getUrl();
         Log.d("ididid", positionurl);
         //mProgressDialog.show();
         regEx(positionurl);
     }
-
-    /*@Override
-    public void onVideoProgressUpdate(int position, int duration) {
-        player.setProgressCallback(this);
-        player.setCallback(this);
-    }*/
 }
