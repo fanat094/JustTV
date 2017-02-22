@@ -9,6 +9,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -27,7 +28,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -257,7 +257,10 @@ public class MainActivity extends AppCompatActivity
             }
 
             this.doubleBackToExitPressedOnce = true;
-            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+            //Snackbar.make(this,"Please click BACK again to exit",Snackbar.LENGTH_SHORT).show();
+            Snackbar snackbar = Snackbar.make(lvMain,R.string.double_click_snackbar, Snackbar.LENGTH_LONG);
+            snackbar.show();
 
             new Handler().postDelayed(new Runnable() {
 
