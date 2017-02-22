@@ -15,8 +15,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -818,5 +821,32 @@ public class MainActivity extends AppCompatActivity
         Log.d("ididid", positionurl);
         //mProgressDialog.show();
         regEx(positionurl);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu( Menu menu) {
+        getMenuInflater().inflate( R.menu.main, menu);
+
+        MenuItem myActionMenuItem = menu.findItem( R.id.action_search);
+        final SearchView searchView = (SearchView) myActionMenuItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (TextUtils.isEmpty(newText)) {
+                    boxAdapter.filter("");
+                    lvMain.clearTextFilter();
+                } else {
+                    boxAdapter.filter(newText);
+                }
+                return true;
+            }
+        });
+
+        return true;
     }
 }

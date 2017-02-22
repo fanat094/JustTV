@@ -20,7 +20,7 @@
         <item>Cartoon Network</item>
         <item>Disney</item>
         <item>Enter-фільм</item>
-        <item>HCT</item>
+        <item>НСТ</item>
         <item>ICTV</item>
         <item>LifeNews</item>
         <item>RU TV</item>
@@ -62,7 +62,7 @@
         <item>https://chas.tv/channel/cartoon-network</item>
         <item>https://chas.tv/channel/disney</item>
         <item>http://vsitv.org/enter-film.html</item>
-        <item>https://chas.tv/channel/nct</item>
+        <item>https://chas.tv/channel/nst</item>
         <item>http://vsitv.org/uaictv.html</item>
         <item>https://chas.tv/channel/lifenews</item>
         <item>https://chas.tv/channel/rutv</item>
@@ -98,15 +98,4 @@
         <item>http://vsitv.org/ukrana.html</item>
         <item>https://chas.tv/channel/che</item>
     </string-array>
-
-    <string-array name="title_chanels_ru">
-        <item>ТНТ</item>
-        <item>СТС</item>
-    </string-array>
-
-    <string-array name="url_chanels_ru">
-        <item>http://www.glaz.tv/online-tv/tnt</item>
-        <item>http://www.glaz.tv/online-tv/sts</item>
-    </string-array>
-
 </resources>

@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import ua.dima.yamschikov.justtv.R;
 import ua.dima.yamschikov.justtv.constructors.Chanel;
@@ -22,10 +24,15 @@ public class BoxAdapter extends BaseAdapter {
     LayoutInflater lInflater;
     ArrayList<Chanel> objects;
 
+    private List<Chanel> searchList;
+
     public BoxAdapter(Context context, ArrayList<Chanel> products) {
         ctx = context;
         objects = products;
         lInflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        this.searchList = new ArrayList<>();
+        this.searchList.addAll(objects);
     }
 
     // кол-во элементов
@@ -43,6 +50,24 @@ public class BoxAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         return position;
+    }
+
+    // Filter method
+    public void filter(String charText) {
+        charText = charText.toLowerCase(Locale.getDefault());
+        objects.clear();
+        objects.clear();
+        if (charText.length() == 0) {
+            objects.addAll(searchList);
+
+        } else {
+            for (Chanel postDetail : searchList) {
+                if (charText.length() != 0 && postDetail.getTitle().toLowerCase(Locale.getDefault()).contains(charText)) {
+                    objects.add(postDetail);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
     // пункт списка
