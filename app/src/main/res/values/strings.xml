@@ -16,101 +16,97 @@
     <string name="title_nav_about_app">Про додаток</string>
 
     <string-array name="title_chanels">
-        <item>СТБ</item>
-        <item>Україна</item>
-        <item>Новий канал</item>
-        <item>ICTV</item>
-        <item>Інтер</item>
-        <item>Інтер+</item>
-        <item>НТН</item>
-        <item>К1</item>
-        <item>К2</item>
-        <item>Enter-фільм</item>
-        <item>Мега</item>
-        <item>Канал 24</item>
-        <item>ТНТ</item>
-        <item>СТС</item>
-        <item>Первый канал</item>
-        <item>Матч ТВ</item>
-        <item>НТВ</item>
-        <item>Рен ТВ</item>
-        <item>Че(Перец)</item>
-
-        <item>Пятница</item>
-        <item>Моя планета</item>
-        <item>ТВ 3</item>
-        <item>LifeNews</item>
-        <item>ТВ Центр</item>
-        <item>Звезда</item>
-        <item>Пятый канал</item>
-        <item>Россия 1</item>
-        <item>Россия 24</item>
-        <item>РТР-Планета</item>
-        <item>Россия К</item>
-
-        <item>HTC</item>
-        <item>Домашний</item>
-        <item>Карусель</item>
-        <item>Disney</item>
-        <item>Cartoon Network</item>
-        <item>СТС Love</item>
         <item>2x2</item>
+        <item>Cartoon Network</item>
+        <item>Disney</item>
+        <item>Enter-фільм</item>
+        <item>HCT</item>
+        <item>ICTV</item>
+        <item>LifeNews</item>
         <item>RU TV</item>
         <item>Боец</item>
-
+        <item>Домашний</item>
+        <item>Звезда</item>
+        <item>Інтер</item>
+        <item>Інтер+</item>
+        <item>К1</item>
+        <item>К2</item>
+        <item>Канал 24</item>
+        <item>Карусель</item>
+        <item>Матч ТВ</item>
+        <item>Мега</item>
+        <item>Моя планета</item>
+        <item>Новий канал</item>
+        <item>НТВ</item>
+        <item>НТН</item>
+        <item>Первый канал</item>
+        <item>Пятница</item>
+        <item>Пятый канал</item>
+        <item>Рен ТВ</item>
+        <item>Россия 1</item>
+        <item>Россия 24</item>
+        <item>Россия К</item>
+        <item>РТР-Планета</item>
+        <item>СТБ</item>
+        <item>СТС</item>
+        <item>СТС Love</item>
+        <item>ТВ 3</item>
+        <item>ТВ Центр</item>
+        <item>ТНТ</item>
+        <item>Україна</item>
+        <item>Че (Перец) </item>
     </string-array>
 
     <string-array name="url_chanels">
-        <item>http://vsitv.org/uastb.html</item>
-        <item>http://vsitv.org/ukrana.html</item>
-        <item>http://vsitv.org/nov-kanal.html</item>
-        <item>http://vsitv.org/uaictv.html</item>
-        <item>http://vsitv.org/inter.html</item>
-        <item>http://vsitv.org/interplus.html</item>
-        <item>http://vsitv.org/ntn.html</item>
-        <item>http://vsitv.org/k1.html</item>
-        <item>http://vsitv.org/k2.html</item>
-        <item>http://vsitv.org/enter-film.html</item>
-        <item>http://vsitv.org/mega.html</item>
-        <item>http://vsitv.org/24-telekanal-novin.html</item>
-
-        <item>https://chas.tv/channel/tnt</item>
-        <item>https://chas.tv/channel/sts</item>
-        <item>https://chas.tv/channel/pervyi</item>
-        <item>https://chas.tv/channel/match-tv</item>
-        <item>https://chas.tv/channel/ntv</item>
-        <item>https://chas.tv/channel/rentv</item>
-        <item>https://chas.tv/channel/che</item>
-
-        <item>https://chas.tv/channel/pyatnica</item>
-        <item>https://chas.tv/channel/moya-planeta</item>
-        <item>https://chas.tv/channel/tv3</item>
-        <item>https://chas.tv/channel/lifenews</item>
-        <item>https://chas.tv/channel/tvc</item>
-        <item>https://chas.tv/channel/zvezda</item>
-        <item>https://chas.tv/channel/pyatyi</item>
-        <item>https://chas.tv/channel/rossiya-1</item>
-        <item>https://chas.tv/channel/rossiya-24</item>
-        <item>https://chas.tv/channel/planeta-rtr</item>
-        <item>https://chas.tv/channel/kultura</item>
-
-        <item>https://chas.tv/channel/nst</item>
-        <item>https://chas.tv/channel/domashnii</item>
-        <item>https://chas.tv/channel/karusel</item>
-        <item>https://chas.tv/channel/disney</item>
-        <item>https://chas.tv/channel/cartoon-network</item>
-        <item>https://chas.tv/channel/sts-love</item>
         <item>https://chas.tv/channel/2x2</item>
+        <item>https://chas.tv/channel/cartoon-network</item>
+        <item>https://chas.tv/channel/disney</item>
+        <item>http://vsitv.org/enter-film.html</item>
+        <item>https://chas.tv/channel/nct</item>
+        <item>http://vsitv.org/uaictv.html</item>
+        <item>https://chas.tv/channel/lifenews</item>
         <item>https://chas.tv/channel/rutv</item>
         <item>https://chas.tv/channel/boec</item>
+        <item>https://chas.tv/channel/domashnii</item>
+        <item>https://chas.tv/channel/zvezda</item>
+        <item>http://vsitv.org/inter.html</item>
+        <item>http://vsitv.org/interplus.html</item>
+        <item>http://vsitv.org/k1.html</item>
+        <item>http://vsitv.org/k2.html</item>
+        <item>http://vsitv.org/24-telekanal-novin.html</item>
+        <item>https://chas.tv/channel/karusel</item>
+        <item>https://chas.tv/channel/match-tv</item>
+        <item>http://vsitv.org/mega.html</item>
+        <item>https://chas.tv/channel/moya-planeta</item>
+        <item>http://vsitv.org/nov-kanal.html</item>
+        <item>https://chas.tv/channel/ntv</item>
+        <item>http://vsitv.org/ntn.html</item>
+        <item>https://chas.tv/channel/pervyi</item>
+        <item>https://chas.tv/channel/pyatnica</item>
+        <item>https://chas.tv/channel/pyatyi</item>
+        <item>https://chas.tv/channel/rentv</item>
+        <item>https://chas.tv/channel/rossiya-1</item>
+        <item>https://chas.tv/channel/rossiya-24</item>
+        <item>https://chas.tv/channel/kultura</item>
+        <item>https://chas.tv/channel/planeta-rtr</item>
+        <item>http://vsitv.org/uastb.html</item>
+        <item>https://chas.tv/channel/sts</item>
+        <item>https://chas.tv/channel/sts-love</item>
+        <item>https://chas.tv/channel/tv3</item>
+        <item>https://chas.tv/channel/tvc</item>
+        <item>https://chas.tv/channel/tnt</item>
+        <item>http://vsitv.org/ukrana.html</item>
+        <item>https://chas.tv/channel/che</item>
     </string-array>
 
     <string-array name="title_chanels_ru">
         <item>ТНТ</item>
+        <item>СТС</item>
     </string-array>
 
     <string-array name="url_chanels_ru">
         <item>http://www.glaz.tv/online-tv/tnt</item>
+        <item>http://www.glaz.tv/online-tv/sts</item>
     </string-array>
 
 </resources>

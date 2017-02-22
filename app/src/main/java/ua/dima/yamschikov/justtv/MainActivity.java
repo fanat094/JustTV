@@ -47,6 +47,9 @@ import ua.dima.yamschikov.justtv.adapters.BoxAdapter;
 import ua.dima.yamschikov.justtv.adapters.ChanelAdapter;
 import ua.dima.yamschikov.justtv.constructors.Chanel;
 
+import static ua.dima.yamschikov.justtv.R.array.title_chanels;
+import static ua.dima.yamschikov.justtv.R.array.url_chanels;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener,
         AdapterView.OnItemClickListener{
@@ -126,7 +129,7 @@ public class MainActivity extends AppCompatActivity
             nameProfile.setText("ZAL");
         }*/
         loadText();
-        loadSharedPrefs("MY_PREFS_JUSTTV");
+        //loadSharedPrefs("MY_PREFS_JUSTTV");
         //ImageView ff = (ImageView) findViewById(R.id.orel);
 
        /* recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -310,10 +313,14 @@ public class MainActivity extends AppCompatActivity
 
             //Toast.makeText(this,"nav_gallery",Toast.LENGTH_LONG).show();
             chanelList.clear();
-            prepareChanelData2();
+            prepareChanelDataUA();
             lvMain.setAdapter(boxAdapter);
 
         } else if (id == R.id.nav_ru_chanels) {
+
+            chanelList.clear();
+            prepareChanelDataRU();
+            lvMain.setAdapter(boxAdapter);
 
         } else if (id == R.id.nav_about_app) {
 
@@ -380,7 +387,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void loadSharedPrefs(String ... prefs) {
+    /*public void loadSharedPrefs(String ... prefs) {
 
         // Logging messages left in to view Shared Preferences. I filter out all logs except for ERROR; hence why I am printing error messages.
 
@@ -407,7 +414,7 @@ public class MainActivity extends AppCompatActivity
 
         Log.i("Finished Shared Prefs", "----------------------------------");
 
-    }
+    }*/
 
 
     @Override
@@ -443,100 +450,180 @@ public class MainActivity extends AppCompatActivity
         String[] title_chanels = getResources().getStringArray(R.array.title_chanels);
         String[] url_chanels = getResources().getStringArray(R.array.url_chanels);
 
-        Chanel chanel = new Chanel(R.drawable.stb_chanel, title_chanels[0], url_chanels[0]);
+        Chanel chanel = new Chanel(R.drawable.dvaxdva_chanel, title_chanels[0], url_chanels[0]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.drawable.ukraine_chanel, title_chanels[1], url_chanels[1]);
+        chanel = new Chanel(R.drawable.cartoonnetwork_chanel, title_chanels[1], url_chanels[1]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.drawable.telekanal_novy, title_chanels[2], url_chanels[2]);
+        chanel = new Chanel(R.drawable.disney_chanel, title_chanels[2], url_chanels[2]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.drawable.ictv_chanel, title_chanels[3], url_chanels[3]);
+        chanel = new Chanel(R.drawable.enter_film_chanel, title_chanels[3], url_chanels[3]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.drawable.inter_chanel, title_chanels[4], url_chanels[4]);
+        chanel = new Chanel(R.drawable.hct_chanel, title_chanels[4], url_chanels[4]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.drawable.inter_chanel, title_chanels[5], url_chanels[5]);
+        chanel = new Chanel(R.drawable.ictv_chanel, title_chanels[5], url_chanels[5]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.drawable.ntn_chanel, title_chanels[6], url_chanels[6]);
+        chanel = new Chanel(R.drawable.lifenews_chanel, title_chanels[6], url_chanels[6]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.drawable.k1_chanel, title_chanels[7], url_chanels[7]);
+        chanel = new Chanel(R.drawable.rutv_chanel, title_chanels[7], url_chanels[7]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.drawable.k2_chanel, title_chanels[8], url_chanels[8]);
+        chanel = new Chanel(R.drawable.boec_chanel, title_chanels[8], url_chanels[8]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.drawable.enter_film_chanel, title_chanels[9], url_chanels[9]);
+        chanel = new Chanel(R.drawable.domashnii_chanel, title_chanels[9], url_chanels[9]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.drawable.mega_chanel, title_chanels[10], url_chanels[10]);
+        chanel = new Chanel(R.drawable.zvezda_chanel, title_chanels[10], url_chanels[10]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.drawable.chanel24_chanel, title_chanels[11], url_chanels[11]);
+        chanel = new Chanel(R.drawable.inter_chanel, title_chanels[11], url_chanels[11]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.drawable.tnt_chanel, title_chanels[12], url_chanels[12]);
+        chanel = new Chanel(R.drawable.inter_chanel, title_chanels[12], url_chanels[12]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.drawable.sts_chanel, title_chanels[13], url_chanels[13]);
+        chanel = new Chanel(R.drawable.k1_chanel, title_chanels[13], url_chanels[13]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.drawable.pervyi_chanel, title_chanels[14], url_chanels[14]);
+        chanel = new Chanel(R.drawable.k2_chanel, title_chanels[14], url_chanels[14]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.drawable.matchtv_chanel, title_chanels[15], url_chanels[15]);
+        chanel = new Chanel(R.drawable.chanel24_chanel, title_chanels[15], url_chanels[15]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.drawable.ntv_chanel, title_chanels[16], url_chanels[16]);
+        chanel = new Chanel(R.drawable.karusel_chanel, title_chanels[16], url_chanels[16]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.drawable.rentv_chanel, title_chanels[17], url_chanels[17]);
+        chanel = new Chanel(R.drawable.matchtv_chanel, title_chanels[17], url_chanels[17]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.drawable.che_chanel, title_chanels[18], url_chanels[18]);
+        chanel = new Chanel(R.drawable.mega_chanel, title_chanels[18], url_chanels[18]);
         chanelList.add(chanel);
-
-        chanel = new Chanel(R.drawable.pyatnica_chanel, title_chanels[19], url_chanels[19]);
+        chanel = new Chanel(R.drawable.moyaplaneta_chanel, title_chanels[19], url_chanels[19]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.drawable.moyaplaneta_chanel, title_chanels[20], url_chanels[20]);
+        chanel = new Chanel(R.drawable.telekanal_novy, title_chanels[20], url_chanels[20]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[21], url_chanels[21]);
+        chanel = new Chanel(R.drawable.ntv_chanel, title_chanels[21], url_chanels[21]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[22], url_chanels[22]);
+        chanel = new Chanel(R.drawable.ntn_chanel, title_chanels[22], url_chanels[22]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[23], url_chanels[23]);
+        chanel = new Chanel(R.drawable.pervyi_chanel, title_chanels[23], url_chanels[23]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[24], url_chanels[24]);
+        chanel = new Chanel(R.drawable.pyatnica_chanel, title_chanels[24], url_chanels[24]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[25], url_chanels[25]);
+        chanel = new Chanel(R.drawable.pyatyi_chanel, title_chanels[25], url_chanels[25]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[26], url_chanels[26]);
+        chanel = new Chanel(R.drawable.rentv_chanel, title_chanels[26], url_chanels[26]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[27], url_chanels[27]);
+        chanel = new Chanel(R.drawable.rossiya1_chanel, title_chanels[27], url_chanels[27]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[28], url_chanels[28]);
+        chanel = new Chanel(R.drawable.rossiya24_chanel, title_chanels[28], url_chanels[28]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[29], url_chanels[29]);
+        chanel = new Chanel(R.drawable.kultura_chanel, title_chanels[29], url_chanels[29]);
         chanelList.add(chanel);
-
-        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[30], url_chanels[30]);
+        chanel = new Chanel(R.drawable.planetartr_chanel, title_chanels[30], url_chanels[30]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[31], url_chanels[31]);
+        chanel = new Chanel(R.drawable.stb_chanel, title_chanels[31], url_chanels[31]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[32], url_chanels[32]);
+        chanel = new Chanel(R.drawable.sts_chanel, title_chanels[32], url_chanels[32]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[33], url_chanels[33]);
+        chanel = new Chanel(R.drawable.ctclove_chanel, title_chanels[33], url_chanels[33]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[34], url_chanels[34]);
+        chanel = new Chanel(R.drawable.tv3_chanel, title_chanels[34], url_chanels[34]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[35], url_chanels[35]);
+        chanel = new Chanel(R.drawable.tvc_chanel, title_chanels[35], url_chanels[35]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[36], url_chanels[36]);
+        chanel = new Chanel(R.drawable.tnt_chanel, title_chanels[36], url_chanels[36]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[37], url_chanels[37]);
+        chanel = new Chanel(R.drawable.ukraine_chanel, title_chanels[37], url_chanels[37]);
         chanelList.add(chanel);
-        chanel = new Chanel(R.mipmap.ic_launcher, title_chanels[38], url_chanels[38]);
+        chanel = new Chanel(R.drawable.che_chanel, title_chanels[38], url_chanels[38]);
         chanelList.add(chanel);
 
       //  mAdapter.notifyDataSetChanged();
-
     }
-    private void prepareChanelData2() {
 
-        String[] title_chanels_ru = getResources().getStringArray(R.array.title_chanels_ru);
-        String[] url_chanels_ru = getResources().getStringArray(R.array.url_chanels_ru);
+    private void prepareChanelDataUA() {
 
-        Chanel chanel = new Chanel(R.mipmap.ic_launcher, title_chanels_ru[0], url_chanels_ru[0]);
+        String[] title_chanel_ua = getResources().getStringArray(title_chanels);
+        String[] url_chanel_ua = getResources().getStringArray(url_chanels);
+
+        Chanel chanel = new Chanel(R.drawable.enter_film_chanel, title_chanel_ua[3], url_chanel_ua[3]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.ictv_chanel, title_chanel_ua[5], url_chanel_ua[5]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.inter_chanel, title_chanel_ua[11], url_chanel_ua[11]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.inter_chanel, title_chanel_ua[12], url_chanel_ua[12]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.k1_chanel, title_chanel_ua[13], url_chanel_ua[13]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.k2_chanel, title_chanel_ua[14], url_chanel_ua[14]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.chanel24_chanel, title_chanel_ua[15], url_chanel_ua[15]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.mega_chanel, title_chanel_ua[18], url_chanel_ua[18]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.telekanal_novy, title_chanel_ua[20], url_chanel_ua[20]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.ntn_chanel, title_chanel_ua[22], url_chanel_ua[22]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.stb_chanel, title_chanel_ua[31], url_chanel_ua[31]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.ukraine_chanel, title_chanel_ua[37], url_chanel_ua[37]);
+        chanelList.add(chanel);
+    }
+
+    private void prepareChanelDataRU() {
+
+        String[] title_chanels_ru = getResources().getStringArray(R.array.title_chanels);
+        String[] url_chanels_ru = getResources().getStringArray(R.array.url_chanels);
+
+        Chanel chanel = new Chanel(R.drawable.dvaxdva_chanel, title_chanels_ru[0], url_chanels_ru[0]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.cartoonnetwork_chanel, title_chanels_ru[1], url_chanels_ru[1]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.disney_chanel, title_chanels_ru[2], url_chanels_ru[2]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.hct_chanel, title_chanels_ru[4], url_chanels_ru[4]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.lifenews_chanel, title_chanels_ru[6], url_chanels_ru[6]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.rutv_chanel, title_chanels_ru[7], url_chanels_ru[7]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.boec_chanel, title_chanels_ru[8], url_chanels_ru[8]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.domashnii_chanel, title_chanels_ru[9], url_chanels_ru[9]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.zvezda_chanel, title_chanels_ru[10], url_chanels_ru[10]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.karusel_chanel, title_chanels_ru[16], url_chanels_ru[16]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.matchtv_chanel, title_chanels_ru[17], url_chanels_ru[17]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.moyaplaneta_chanel, title_chanels_ru[19], url_chanels_ru[19]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.ntv_chanel, title_chanels_ru[21], url_chanels_ru[21]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.pervyi_chanel, title_chanels_ru[23], url_chanels_ru[23]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.pyatnica_chanel, title_chanels_ru[24], url_chanels_ru[24]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.pyatyi_chanel, title_chanels_ru[25], url_chanels_ru[25]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.rentv_chanel, title_chanels_ru[26], url_chanels_ru[26]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.rossiya1_chanel, title_chanels_ru[27], url_chanels_ru[27]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.rossiya24_chanel, title_chanels_ru[28], url_chanels_ru[28]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.kultura_chanel, title_chanels_ru[29], url_chanels_ru[29]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.planetartr_chanel, title_chanels_ru[30], url_chanels_ru[30]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.sts_chanel, title_chanels_ru[32], url_chanels_ru[32]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.ctclove_chanel, title_chanels_ru[33], url_chanels_ru[33]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.tv3_chanel, title_chanels_ru[34], url_chanels_ru[34]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.tvc_chanel, title_chanels_ru[35], url_chanels_ru[35]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.tnt_chanel, title_chanels_ru[36], url_chanels_ru[36]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.che_chanel, title_chanels_ru[38], url_chanels_ru[38]);
         chanelList.add(chanel);
 
-        //mAdapter.notifyDataSetChanged();
-
+        //  mAdapter.notifyDataSetChanged();
     }
 
     @Override
