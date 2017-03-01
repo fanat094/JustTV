@@ -534,8 +534,31 @@ public class MainActivity extends AppCompatActivity
         chanelList.add(chanel);
         chanel = new Chanel(R.drawable.che_chanel, title_chanels[38], url_chanels[38]);
         chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.tnt4_chanel, title_chanels[39], url_chanels[39]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.pyatyiua_chanel, title_chanels[40], url_chanels[40]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.sport1_chanel, title_chanels[41], url_chanels[41]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.tonis_chanel, title_chanels[42], url_chanels[42]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.pixel_chanel, title_chanels[43], url_chanels[43]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.muztv_chanel, title_chanels[44], url_chanels[44]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.paramount_comedy_chanel, title_chanels[45], url_chanels[45]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.mtv_chanel, title_chanels[46], url_chanels[46]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.dvaodinodin_chanel, title_chanels[47], url_chanels[47]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.comedy_chanel, title_chanels[48], url_chanels[48]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.domkino_chanel, title_chanels[49], url_chanels[49]);
+        chanelList.add(chanel);
 
-      //  mAdapter.notifyDataSetChanged();
+
+        //  mAdapter.notifyDataSetChanged();
     }
 
     private void prepareChanelDataUA() {
@@ -566,6 +589,14 @@ public class MainActivity extends AppCompatActivity
         chanel = new Chanel(R.drawable.stb_chanel, title_chanel_ua[31], url_chanel_ua[31]);
         chanelList.add(chanel);
         chanel = new Chanel(R.drawable.ukraine_chanel, title_chanel_ua[37], url_chanel_ua[37]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.pyatyiua_chanel, title_chanel_ua[40], url_chanel_ua[40]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.sport1_chanel, title_chanel_ua[41], url_chanel_ua[41]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.tonis_chanel, title_chanel_ua[42], url_chanel_ua[42]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.pixel_chanel, title_chanel_ua[43], url_chanel_ua[43]);
         chanelList.add(chanel);
     }
 
@@ -627,6 +658,20 @@ public class MainActivity extends AppCompatActivity
         chanel = new Chanel(R.drawable.tnt_chanel, title_chanels_ru[36], url_chanels_ru[36]);
         chanelList.add(chanel);
         chanel = new Chanel(R.drawable.che_chanel, title_chanels_ru[38], url_chanels_ru[38]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.tnt4_chanel, title_chanels_ru[39], url_chanels_ru[39]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.muztv_chanel, title_chanels_ru[44], url_chanels_ru[44]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.paramount_comedy_chanel, title_chanels_ru[45], url_chanels_ru[45]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.mtv_chanel, title_chanels_ru[46], url_chanels_ru[46]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.dvaodinodin_chanel, title_chanels_ru[47], url_chanels_ru[47]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.comedy_chanel, title_chanels_ru[48], url_chanels_ru[48]);
+        chanelList.add(chanel);
+        chanel = new Chanel(R.drawable.domkino_chanel, title_chanels_ru[49], url_chanels_ru[49]);
         chanelList.add(chanel);
 
         //  mAdapter.notifyDataSetChanged();
@@ -719,9 +764,60 @@ public class MainActivity extends AppCompatActivity
                         }
 
                         else
+                        if (lengtresponse == 19521) { //tonis
+
+                            Pattern pattern = Pattern.compile("http:[/]{2}[0-9]+[.]+[0-9]+[.][0-9]+[0-9][.][0-9]+[/][\\w]+[/][\\w]+[:][\\w]+[.][\\w]+[/][\\w]+[.][\\w]+[?][\\w]");
+
+                            Matcher matcher = pattern.matcher(response);
+
+                            while (matcher.find()) {
+                                //Log.i("StreamLink",response.substring(matcher.start()+9, matcher.end()-1));
+                                buff = response.substring(matcher.start() + 0, matcher.end() - 0);
+                            }
+                        }
+
+                        else
+                        if (lengtresponse == 19665) { //pixel
+
+                            Pattern pattern = Pattern.compile("http:[/]{2}[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+[:][\\w]+[/][\\w]+[/][\\w]+[.][\\w]+");
+
+                            Matcher matcher = pattern.matcher(response);
+
+                            while (matcher.find()) {
+                                //Log.i("StreamLink",response.substring(matcher.start()+9, matcher.end()-1));
+                                buff = response.substring(matcher.start() + 0, matcher.end() - 0);
+                            }
+                        }
+
+                        else
+                        if (lengtresponse == 20716) { //otv
+
+                            Pattern pattern = Pattern.compile("rtmp:[/]{2}[0-9]+[.]+[0-9]+[.][0-9]+[0-9][.]+[0-9]+[/][\\w]+[\\w]+[/][\\w]+");
+
+                            Matcher matcher = pattern.matcher(response);
+
+                            while (matcher.find()) {
+                                //Log.i("StreamLink",response.substring(matcher.start()+9, matcher.end()-1));
+                                buff = response.substring(matcher.start() + 0, matcher.end() - 0);
+                            }
+                        }
+
+                        else
                         if (lengtresponse>=16000) {
 
                             Pattern pattern = Pattern.compile("http:[/]{2}[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+[:][0-9]{4}[/][\\w]+[-]{0,1}[/]{0,1}[\\w]+[/][\\w]+[.][\\w]+[/][\\w]+[.][\\w]+[?][\\w]+[=][\\w]+[=]{0,}");
+
+                            Matcher matcher = pattern.matcher(response);
+
+                            while (matcher.find()) {
+                                //Log.i("StreamLink",response.substring(matcher.start()+9, matcher.end()-1));
+                                buff = response.substring(matcher.start() + 0, matcher.end() - 0);
+                            }
+                        }
+
+                        if (lengtresponse>=16000 & lengtresponse<60000) {
+
+                            Pattern pattern = Pattern.compile("http:[/]{2}[\\w]+[.][\\w]+[.][\\w]+[/][\\w]+[.][m][\\w]+");
 
                             Matcher matcher = pattern.matcher(response);
 

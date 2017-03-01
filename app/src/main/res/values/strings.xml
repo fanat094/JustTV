@@ -56,6 +56,17 @@
         <item>ТНТ</item>
         <item>Україна</item>
         <item>Че (Перец) </item>
+        <item>ТНТ4</item>
+        <item>5 Канал</item>
+        <item>Спорт 1</item>
+        <item>Тоніс</item>
+        <item>Піксель</item>
+        <item>Муз-ТВ</item>
+        <item>Paramount Comedy</item>
+        <item>MTV Россия</item>
+        <item>TV XXI (TV21)</item>
+        <item>Комедия ТВ</item>
+        <item>Дом Кино</item>
     </string-array>
 
     <string-array name="url_chanels">
@@ -98,5 +109,16 @@
         <item>https://chas.tv/channel/tnt</item>
         <item>http://vsitv.org/ukrana.html</item>
         <item>https://chas.tv/channel/che</item>
+        <item>http://www.glaz.tv/online-tv/comedy-tv</item>
+        <item>http://www.glaz.tv/online-tv/5-y-kanal</item>
+        <item>http://freeonlinetv.at.ua/sport1.html</item>
+        <item>http://freeonlinetv.at.ua/tonis.html</item>
+        <item>http://freeonlinetv.at.ua/pixel-tv.html</item>
+        <item>http://www.glaz.tv/online-tv/muz-tv</item>
+        <item>http://www.glaz.tv/online-tv/paramount-comedy</item>
+        <item>http://www.glaz.tv/online-tv/mtv-russia</item>
+        <item>http://www.glaz.tv/online-tv/tv-xxi</item>
+        <item>http://www.glaz.tv/online-tv/komediya-tv</item>
+        <item>http://www.glaz.tv/online-tv/dom-kino</item>
     </string-array>
 </resources>
